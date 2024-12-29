@@ -1,3 +1,71 @@
+const BOLUS_FACTOR_MORGENS_KEY = 'bolusFactorMorgens';
+const BOLUS_FACTOR_MITTAGS_KEY = 'bolusFactorMittags';
+const BOLUS_FACTOR_ABENDS_KEY = 'bolusFactorAbends';
+const BOLUS_FACTOR_SNACK_KEY = 'bolusFactorSnack';
+
+function initializeBolusFactors() {
+    const BOLUS_FACTOR_MORGENS_ID = 'bolus-factor-morgens';
+    const BOLUS_FACTOR_MITTAGS_ID = 'bolus-factor-mittags';
+    const BOLUS_FACTOR_ABENDS_ID = 'bolus-factor-abends';
+    const BOLUS_FACTOR_SNACK_ID = 'bolus-factor-snack';
+    const DEFAULT_BOLUS_FACTOR_MORGENS = '0.8';
+    const DEFAULT_BOLUS_FACTOR_MITTAGS = '0.3';
+    const DEFAULT_BOLUS_FACTOR_ABENDS = '0.5';
+    const DEFAULT_BOLUS_FACTOR_SNACK = '0.5';
+
+    const bolusFactorMorgensInput = document.getElementById(BOLUS_FACTOR_MORGENS_ID);
+    const bolusFactorMittagsInput = document.getElementById(BOLUS_FACTOR_MITTAGS_ID);
+    const bolusFactorAbendsInput = document.getElementById(BOLUS_FACTOR_ABENDS_ID);
+    const bolusFactorSnackInput = document.getElementById(BOLUS_FACTOR_SNACK_ID);
+    const bolusFactorMorgensDisplay = document.getElementById(BOLUS_FACTOR_MORGENS_ID + '-display');
+    const bolusFactorMittagsDisplay = document.getElementById(BOLUS_FACTOR_MITTAGS_ID + '-display');
+    const bolusFactorAbendsDisplay = document.getElementById(BOLUS_FACTOR_ABENDS_ID + '-display');
+    const bolusFactorSnackDisplay = document.getElementById(BOLUS_FACTOR_SNACK_ID + '-display');
+
+    if (!localStorage.getItem(BOLUS_FACTOR_MORGENS_KEY)) {
+        bolusFactorMorgensInput.value = DEFAULT_BOLUS_FACTOR_MORGENS;
+        localStorage.setItem(BOLUS_FACTOR_MORGENS_KEY, DEFAULT_BOLUS_FACTOR_MORGENS);
+    }
+    bolusFactorMorgensDisplay.textContent = `(${localStorage.getItem(BOLUS_FACTOR_MORGENS_KEY)})`;
+
+    if (!localStorage.getItem(BOLUS_FACTOR_MITTAGS_KEY)) {
+        bolusFactorMittagsInput.value = DEFAULT_BOLUS_FACTOR_MITTAGS;
+        localStorage.setItem(BOLUS_FACTOR_MITTAGS_KEY, DEFAULT_BOLUS_FACTOR_MITTAGS);
+    }
+    bolusFactorMittagsDisplay.textContent = `(${localStorage.getItem(BOLUS_FACTOR_MITTAGS_KEY)})`;
+
+    if (!localStorage.getItem(BOLUS_FACTOR_ABENDS_KEY)) {
+        bolusFactorAbendsInput.value = DEFAULT_BOLUS_FACTOR_ABENDS;
+        localStorage.setItem(BOLUS_FACTOR_ABENDS_KEY, DEFAULT_BOLUS_FACTOR_ABENDS);
+    }
+    bolusFactorAbendsDisplay.textContent = `(${localStorage.getItem(BOLUS_FACTOR_ABENDS_KEY)})`;
+
+    if (!localStorage.getItem(BOLUS_FACTOR_SNACK_KEY)) {
+        bolusFactorSnackInput.value = DEFAULT_BOLUS_FACTOR_SNACK;
+        localStorage.setItem(BOLUS_FACTOR_SNACK_KEY, DEFAULT_BOLUS_FACTOR_SNACK);
+    }
+    bolusFactorSnackDisplay.textContent = `(${localStorage.getItem(BOLUS_FACTOR_SNACK_KEY)})`;
+
+    bolusFactorMorgensInput.addEventListener('change', function () {
+        localStorage.setItem(BOLUS_FACTOR_MORGENS_KEY, this.value);
+        bolusFactorMorgensDisplay.textContent = `(${this.value})`;
+    });
+
+    bolusFactorMittagsInput.addEventListener('change', function () {
+        localStorage.setItem(BOLUS_FACTOR_MITTAGS_KEY, this.value);
+        bolusFactorMittagsDisplay.textContent = `(${this.value})`;
+    });
+
+    bolusFactorAbendsInput.addEventListener('change', function () {
+        localStorage.setItem(BOLUS_FACTOR_ABENDS_KEY, this.value);
+        bolusFactorAbendsDisplay.textContent = `(${this.value})`;
+    });
+
+    bolusFactorSnackInput.addEventListener('change', function () {
+        localStorage.setItem(BOLUS_FACTOR_SNACK_KEY, this.value);
+        bolusFactorSnackDisplay.textContent = `(${this.value})`;
+    });
+}
 // calculator.js
 function calculateBolus(ke, time, isHighFat) {
     let fiaspBolus = 0;
@@ -5,19 +73,19 @@ function calculateBolus(ke, time, isHighFat) {
     let bolusFactor;
 
     if (time === 'morgens') {
-        const factor = localStorage.getItem('bolusFactorMorgens');
+        const factor = localStorage.getItem(BOLUS_FACTOR_MORGENS_KEY);
         if (!factor || isNaN(factor)) return ['Bolus Faktor Morgens fehlt.', 0];
         bolusFactor = parseFloat(factor)
     } else if (time === 'mittags') {
-        const factor = localStorage.getItem('bolusFactorMittags');
+        const factor = localStorage.getItem(BOLUS_FACTOR_MITTAGS_KEY);
         if (!factor || isNaN(factor)) return ['Bolus Faktor Mittags fehlt.', 0];
         bolusFactor = parseFloat(factor);
     } else if (time === 'abends') {
-        const factor = localStorage.getItem('bolusFactorAbends');
+        const factor = localStorage.getItem(BOLUS_FACTOR_ABENDS_KEY);
         if (!factor || isNaN(factor)) return ['Bolus Faktor Abends fehlt.', 0];
         bolusFactor = parseFloat(factor);
     } else if (time === 'snack') {
-        const factor = localStorage.getItem('bolusFactorSnack');
+        const factor = localStorage.getItem(BOLUS_FACTOR_SNACK_KEY);
         if (!factor || isNaN(factor)) return ['Bolus Faktor Snack fehlt.', 0];
         bolusFactor = parseFloat(factor);
     }
@@ -45,66 +113,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const kohlenhydrateInput = document.getElementById('kohlenhydrate');
     const fiaspOutput = document.getElementById('fiasp');
     const actrapidOutput = document.getElementById('actrapid');
-    const bolusFactorMorgensDisplay = document.getElementById('bolus-factor-morgens-display');
-    const bolusFactorMittagsDisplay = document.getElementById('bolus-factor-mittags-display');
-    const bolusFactorAbendsDisplay = document.getElementById('bolus-factor-abends-display');
-    const bolusFactorSnackDisplay = document.getElementById('bolus-factor-snack-display');
     const configSection = document.getElementById('config-section');
     const configToggle = document.getElementById('config-toggle');
-    const bolusFactorMorgensInput = document.getElementById('bolus-factor-morgens');
-    const bolusFactorMittagsInput = document.getElementById('bolus-factor-mittags');
-    const bolusFactorAbendsInput = document.getElementById('bolus-factor-abends');
-    const bolusFactorSnackInput = document.getElementById('bolus-factor-snack');
 
     let selectedTime = null;
     let isHighFat = false;
 
-    if (!localStorage.getItem('bolusFactorMorgens')) {
-        bolusFactorMorgensInput.value = '0.8';
-        localStorage.setItem('bolusFactorMorgens', '0.8');
-    }
-    bolusFactorMorgensDisplay.textContent = `(${localStorage.getItem('bolusFactorMorgens')})`;
-
-    if (!localStorage.getItem('bolusFactorMittags')) {
-        bolusFactorMittagsInput.value = '0.3';
-        localStorage.setItem('bolusFactorMittags', '0.3');
-    }
-    bolusFactorMittagsDisplay.textContent = `(${localStorage.getItem('bolusFactorMittags')})`;
-
-    if (!localStorage.getItem('bolusFactorAbends')) {
-        bolusFactorAbendsInput.value = '0.5';
-        localStorage.setItem('bolusFactorAbends', '0.5');
-    }
-    bolusFactorAbendsDisplay.textContent = `(${localStorage.getItem('bolusFactorAbends')})`;
-
-    if (!localStorage.getItem('bolusFactorSnack')) {
-        bolusFactorSnackInput.value = '0.5';
-        localStorage.setItem('bolusFactorSnack', '0.5');
-    }
-    bolusFactorSnackDisplay.textContent = `(${localStorage.getItem('bolusFactorSnack')})`;
+    initializeBolusFactors();
 
     configToggle.addEventListener('click', () => {
         configSection.style.display = configSection.style.display === 'none' ? 'block' : 'none';
-    });
-
-    bolusFactorMorgensInput.addEventListener('change', function () {
-        localStorage.setItem('bolusFactorMorgens', this.value);
-        bolusFactorMorgensDisplay.textContent = `(${this.value})`;
-    });
-
-    bolusFactorMittagsInput.addEventListener('change', function () {
-        localStorage.setItem('bolusFactorMittags', this.value);
-        bolusFactorMittagsDisplay.textContent = `(${this.value})`;
-    });
-
-    bolusFactorAbendsInput.addEventListener('change', function () {
-        localStorage.setItem('bolusFactorAbends', this.value);
-        bolusFactorAbendsDisplay.textContent = `(${this.value})`;
-    });
-
-    bolusFactorSnackInput.addEventListener('change', function () {
-        localStorage.setItem('bolusFactorSnack', this.value);
-        bolusFactorSnackDisplay.textContent = `(${this.value})`;
     });
 
     function selectButton(group, selectedButton) {
