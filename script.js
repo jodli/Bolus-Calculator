@@ -1,21 +1,31 @@
 // calculator.js
 function calculateBolus(ke, time, isHighFat) {
+    let fiaspBolus = 0;
+    let actrapidBolus = 0;
     let bolusFactor = 0;
-    if (time === 'morgens') {
-        bolusFactor = 1.5;
-    } else if (time === 'mittags' || time === 'abends') {
+
+    if (time === 'morgens' || time === 'mittags' || time === 'snack') {
+        if (time === 'morgens') {
+            bolusFactor = 1.5;
+        } else if (time === 'mittags') {
+            bolusFactor = 1.0;
+        } else if (time === 'snack') {
+            bolusFactor = 0.8;
+        }
+        fiaspBolus = ke * bolusFactor;
+        actrapidBolus = 0;
+    } else if (time === 'abends') {
         bolusFactor = 1.0;
-    } else if (time === 'snack') {
-        bolusFactor = 0.8;
+        let totalBolus = ke * bolusFactor;
+        if (isHighFat) {
+            fiaspBolus = totalBolus * (1 / 3);
+            actrapidBolus = totalBolus * (2 / 3);
+        } else {
+            fiaspBolus = totalBolus * (2 / 3);
+            actrapidBolus = totalBolus * (1 / 3);
+        }
     }
-
-    let bolus = ke * bolusFactor;
-
-    if (isHighFat) {
-        bolus *= 1.2;
-    }
-
-    return bolus;
+    return [fiaspBolus, actrapidBolus];
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -64,8 +74,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const bolus = calculateBolus(kohlenhydrateinheiten, selectedTime, isHighFat);
-        fiaspOutput.value = bolus.toFixed(1);
-        actrapidOutput.value = bolus.toFixed(1);
+        const [fiaspBolus, actrapidBolus] = calculateBolus(kohlenhydrateinheiten, selectedTime, isHighFat);
+        fiaspOutput.value = fiaspBolus.toFixed(1);
+        actrapidOutput.value = actrapidBolus.toFixed(1);
     });
 });
