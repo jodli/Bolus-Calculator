@@ -12,13 +12,39 @@
     <header>
         <h1>Diabetes Typ 1 Bolus Rechner</h1>
     </header>
+    <nav>
+        <button id="config-toggle">Configure Bolus Factor</button>
+    </nav>
     <main>
+        <div id="config-section" style="display: none;">
+            <h2>Configure Bolus Factor</h2>
+            <div>
+                <label for="bolus-factor-morgens">Bolus Factor Morgens:</label>
+                <input type="number" id="bolus-factor-morgens" name="bolus-factor-morgens" required step="0.1"
+                    value="1.5"><br>
+
+                <label for="bolus-factor-mittags">Bolus Factor Mittags:</label>
+                <input type="number" id="bolus-factor-mittags" name="bolus-factor-mittags" required step="0.1"
+                    value="1.0"><br>
+
+                <label for="bolus-factor-abends">Bolus Factor Abends:</label>
+                <input type="number" id="bolus-factor-abends" name="bolus-factor-abends" required step="0.1"
+                    value="1.2"><br>
+
+                <label for="bolus-factor-snack">Bolus Factor Snack:</label>
+                <input type="number" id="bolus-factor-snack" name="bolus-factor-snack" required step="0.1"
+                    value="1.0"><br>
+            </div>
+        </div>
         <section id="time-buttons">
             <h2>Zeitpunkt</h2>
-            <button class="time-button" data-time="morgens">Morgens</button>
-            <button class="time-button" data-time="mittags">Mittags</button>
-            <button class="time-button" data-time="abends">Abends</button>
-            <button class="time-button" data-time="snack">Snack</button>
+            <button class="time-button" data-time="morgens">Morgens <span
+                    id="bolus-factor-morgens-display"></span></button>
+            <button class="time-button" data-time="mittags">Mittags <span
+                    id="bolus-factor-mittags-display"></span></button>
+            <button class="time-button" data-time="abends">Abends <span
+                    id="bolus-factor-abends-display"></span></button>
+            <button class="time-button" data-time="snack">Snack <span id="bolus-factor-snack-display"></span></button>
         </section>
         <section id="fat-buttons">
             <h2>Fettgehalt</h2>
