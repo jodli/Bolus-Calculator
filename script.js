@@ -2,16 +2,24 @@
 function calculateBolus(ke, time, isHighFat) {
     let fiaspBolus = 0;
     let actrapidBolus = 0;
-    let bolusFactor = 1;
+    let bolusFactor;
 
     if (time === 'morgens') {
-        bolusFactor = parseFloat(localStorage.getItem('bolusFactorMorgens')) || 0.8;
+        const factor = localStorage.getItem('bolusFactorMorgens');
+        if (!factor || isNaN(factor)) return ['Bolus Faktor Morgens fehlt.', 0];
+        bolusFactor = parseFloat(factor)
     } else if (time === 'mittags') {
-        bolusFactor = parseFloat(localStorage.getItem('bolusFactorMittags')) || 0.3;
+        const factor = localStorage.getItem('bolusFactorMittags');
+        if (!factor || isNaN(factor)) return ['Bolus Faktor Mittags fehlt.', 0];
+        bolusFactor = parseFloat(factor);
     } else if (time === 'abends') {
-        bolusFactor = parseFloat(localStorage.getItem('bolusFactorAbends')) || 0.5;
+        const factor = localStorage.getItem('bolusFactorAbends');
+        if (!factor || isNaN(factor)) return ['Bolus Faktor Abends fehlt.', 0];
+        bolusFactor = parseFloat(factor);
     } else if (time === 'snack') {
-        bolusFactor = parseFloat(localStorage.getItem('bolusFactorSnack')) || 0.5;
+        const factor = localStorage.getItem('bolusFactorSnack');
+        if (!factor || isNaN(factor)) return ['Bolus Faktor Snack fehlt.', 0];
+        bolusFactor = parseFloat(factor);
     }
 
     if (time === 'morgens' || time === 'mittags' || time === 'snack') {
@@ -51,10 +59,29 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectedTime = null;
     let isHighFat = false;
 
-    bolusFactorMorgensDisplay.textContent = `(${localStorage.getItem('bolusFactorMorgens') || '0.8'})`;
-    bolusFactorMittagsDisplay.textContent = `(${localStorage.getItem('bolusFactorMittags') || '0.3'})`;
-    bolusFactorAbendsDisplay.textContent = `(${localStorage.getItem('bolusFactorAbends') || '0.5'})`;
-    bolusFactorSnackDisplay.textContent = `(${localStorage.getItem('bolusFactorSnack') || '0.5'})`;
+    if (!localStorage.getItem('bolusFactorMorgens')) {
+        bolusFactorMorgensInput.value = '0.8';
+        localStorage.setItem('bolusFactorMorgens', '0.8');
+    }
+    bolusFactorMorgensDisplay.textContent = `(${localStorage.getItem('bolusFactorMorgens')})`;
+
+    if (!localStorage.getItem('bolusFactorMittags')) {
+        bolusFactorMittagsInput.value = '0.3';
+        localStorage.setItem('bolusFactorMittags', '0.3');
+    }
+    bolusFactorMittagsDisplay.textContent = `(${localStorage.getItem('bolusFactorMittags')})`;
+
+    if (!localStorage.getItem('bolusFactorAbends')) {
+        bolusFactorAbendsInput.value = '0.5';
+        localStorage.setItem('bolusFactorAbends', '0.5');
+    }
+    bolusFactorAbendsDisplay.textContent = `(${localStorage.getItem('bolusFactorAbends')})`;
+
+    if (!localStorage.getItem('bolusFactorSnack')) {
+        bolusFactorSnackInput.value = '0.5';
+        localStorage.setItem('bolusFactorSnack', '0.5');
+    }
+    bolusFactorSnackDisplay.textContent = `(${localStorage.getItem('bolusFactorSnack')})`;
 
     configToggle.addEventListener('click', () => {
         configSection.style.display = configSection.style.display === 'none' ? 'block' : 'none';
@@ -117,6 +144,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const [fiaspBolus, actrapidBolus] = calculateBolus(kohlenhydrateinheiten, selectedTime, isHighFat);
+        if (isNaN(fiaspBolus) || isNaN(actrapidBolus)) {
+            fiaspOutput.value = fiaspBolus;
+            actrapidOutput.value = actrapidBolus;
+            return;
+        }
         fiaspOutput.value = fiaspBolus.toFixed(1);
         actrapidOutput.value = actrapidBolus.toFixed(1);
     });
