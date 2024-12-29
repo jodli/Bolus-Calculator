@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Diabetes Typ 1 Bolus Rechner</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
@@ -13,48 +16,45 @@
         <h1>Diabetes Typ 1 Bolus Rechner</h1>
     </header>
     <nav>
-        <button id="config-toggle">Bolus Faktoren konfigurieren</button>
+        <button id="config-toggle"><i class="fas fa-cog"></i> Bolus Faktoren konfigurieren</button>
     </nav>
     <main>
         <div id="config-section" style="display: none;">
             <h2>Bolus Faktoren konfigurieren</h2>
             <div>
                 <label for="bolus-factor-morgens">Morgens:</label>
-                <input type="number" id="bolus-factor-morgens" name="bolus-factor-morgens" required step="0.1"
-                    value="1.5"><br>
+                <input type="number" id="bolus-factor-morgens" name="bolus-factor-morgens" required step="0.1"><br>
 
                 <label for="bolus-factor-mittags">Mittags:</label>
-                <input type="number" id="bolus-factor-mittags" name="bolus-factor-mittags" required step="0.1"
-                    value="1.0"><br>
+                <input type="number" id="bolus-factor-mittags" name="bolus-factor-mittags" required step="0.1"><br>
 
                 <label for="bolus-factor-abends">Abends:</label>
-                <input type="number" id="bolus-factor-abends" name="bolus-factor-abends" required step="0.1"
-                    value="1.2"><br>
+                <input type="number" id="bolus-factor-abends" name="bolus-factor-abends" required step="0.1"><br>
 
                 <label for="bolus-factor-snack">Snack:</label>
-                <input type="number" id="bolus-factor-snack" name="bolus-factor-snack" required step="0.1"
-                    value="1.0"><br>
+                <input type="number" id="bolus-factor-snack" name="bolus-factor-snack" required step="0.1"><br>
             </div>
         </div>
         <section id="time-buttons">
             <h2>Zeitpunkt</h2>
-            <button class="time-button" data-time="morgens">Morgens <span
+            <button class="time-button" data-time="morgens"><i class="fas fa-sun"></i> Morgens <span
                     id="bolus-factor-morgens-display"></span></button>
-            <button class="time-button" data-time="mittags">Mittags <span
+            <button class="time-button" data-time="mittags"><i class="fas fa-clock"></i> Mittags <span
                     id="bolus-factor-mittags-display"></span></button>
-            <button class="time-button" data-time="abends">Abends <span
+            <button class="time-button" data-time="abends"><i class="fas fa-moon"></i> Abends <span
                     id="bolus-factor-abends-display"></span></button>
-            <button class="time-button" data-time="snack">Snack <span id="bolus-factor-snack-display"></span></button>
+            <button class="time-button" data-time="snack"><i class="fas fa-cookie"></i> Snack <span
+                    id="bolus-factor-snack-display"></span></button>
         </section>
         <section id="fat-buttons">
             <h2>Fettgehalt</h2>
-            <button class="fat-button" data-fat="fettarm">Fettarm</button>
-            <button class="fat-button" data-fat="fettreich">Fettreich</button>
+            <button class="fat-button" data-fat="fettarm"><i class="fas fa-feather"></i> Fettarm</button>
+            <button class="fat-button" data-fat="fettreich"><i class="fas fa-drumstick-bite"></i> Fettreich</button>
         </section>
         <section id="calculation">
             <label for="kohlenhydrate">Gegessene KE:</label>
             <input type="number" id="kohlenhydrate">
-            <button id="calculate-button">Berechnen</button>
+            <button id="calculate-button"><i class="fas fa-calculator"></i> Berechnen</button>
         </section>
         <section id="result">
             <label for="fiasp">FIASP:</label>
