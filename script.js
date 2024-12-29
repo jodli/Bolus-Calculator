@@ -23,7 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const fatButtons = document.querySelectorAll('.fat-button');
     const calculateButton = document.getElementById('calculate-button');
     const kohlenhydrateInput = document.getElementById('kohlenhydrate');
-    const bolusOutput = document.getElementById('bolus');
+    const fiaspOutput = document.getElementById('fiasp');
+    const actrapidOutput = document.getElementById('actrapid');
 
     let selectedTime = null;
     let isHighFat = false;
@@ -52,16 +53,19 @@ document.addEventListener('DOMContentLoaded', () => {
     calculateButton.addEventListener('click', () => {
         const kohlenhydrateinheiten = parseFloat(kohlenhydrateInput.value);
         if (isNaN(kohlenhydrateinheiten)) {
-            bolusOutput.value = 'Ungültige Eingabe';
+            fiaspOutput.value = 'Ungültige Eingabe';
+            actrapidOutput.value = 'Ungültige Eingabe';
             return;
         }
 
         if (!selectedTime) {
-            bolusOutput.value = 'Bitte Zeitpunkt auswählen';
+            fiaspOutput.value = 'Bitte Zeitpunkt auswählen';
+            actrapidOutput.value = 'Bitte Zeitpunkt auswählen';
             return;
         }
 
         const bolus = calculateBolus(kohlenhydrateinheiten, selectedTime, isHighFat);
-        bolusOutput.value = bolus.toFixed(1);
+        fiaspOutput.value = bolus.toFixed(1);
+        actrapidOutput.value = bolus.toFixed(1);
     });
 });
